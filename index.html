@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PT300D-4G Battery Life Estimator</title>
+    <style>
+        .slider-container {
+            margin: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .slider {
+            margin: 10px;
+            width: 400px;
+        }
+        .slider-value {
+            margin-left: 10px;
+        }
+        .slider-range {
+            margin-left: 10px;
+            margin-right: 10px;
+       }
+        h1 {
+            font-size: 36px;
+            text-align: center;
+        }
+        h5 {
+            text-align: center;
+        }
+        .checkbox {
+            margin-left: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            border: none;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        td {
+            padding: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>PT300D-4G Battery Life Estimator</h1>
+    <table>
+        <div class="slider-container">
+            <tr>
+                <td>
+                    <label for="batteryCapacity">Battery Capacity</label>
+                </td>
+                <td>
+                    <input type="range" id="batteryCapacity" min="2000" max="4400" value="4400" class="slider" disabled />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="batteryCapacity-value"></span> mAh</span>
+                </td>
+                <td>
+                    <span class="slider-range">(2000 - 4400)</span>
+                </td>
+                 <td>
+                    <label for="full-battery">Full Battery:</label>
+                </td>
+                 <td>
+                    <input type="checkbox" class="checkbox" id="full-battery" name="full-battery" checked
+                        onchange="toggleSlider('batteryCapacity', name)" />
+                </td>
+          </tr>
+            <tr>
+                <td>
+                    <label for="percentUsable">Percent Usable</label>
+                </td>
+                <td>
+                    <input type="range" id="percentUsable" min="0" max="100" value="100" class="slider" disabled />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="percentUsable-value"></span>%</span>
+                </td>
+                <td>
+                    <span class="slider-range">(0 - 100)</span>
+                </td>
+                <td>
+                    <label for="new-battery">New Battery:</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="checkbox" id="new-battery" name="new-battery" checked
+                        onchange="toggleSlider('percentUsable', name)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="locationReportInterval">Location Report Interval</label>
+                </td>
+                <td>
+                    <input type="range" id="locationReportInterval" min="1" max="1440" value="60" class="slider" />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="locationReportInterval-value"></span> minutes</span>
+                </td>
+                <td>
+                    <span class="slider-range">(1 - 1440)</span>
+                </td>
+                <td>
+                    <label for="stop-location">Disabled</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="checkbox" id="stop-location" name="stop-location"
+                        onchange="toggleSlider('locationReportInterval', name)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="status300ReportInterval">STATUS300 Report Interval</label>
+                </td>
+                <td>
+                    <input type="range" id="status300ReportInterval" min="1" max="60" value="10" class="slider" />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="status300ReportInterval-value"></span> minutes</span>
+                </td>
+                <td>
+                    <span class="slider-range">(1 - 60)</span>
+                </td>
+                <td>
+                    <label for="stop-status">Disabled</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="checkbox" id="stop-status" name="stop-status"
+                        onchange="toggleSlider('status300ReportInterval', name)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="sendInterval">Send Interval</label>
+                </td>
+                <td>
+                    <input type="range" id="sendInterval" min="1" max="1440" value="1440" class="slider" disabled/>
+                </td>
+                <td>
+                    <span class="slider-value"><span id="sendInterval-value"></span> minutes</span>
+                </td>
+                <td>
+                    <span class="slider-range">(1 - 1440)</span>
+                </td>
+                <td>
+                    <label for="stop-send">Disabled</label>
+                </td>
+                <td>
+                    <input type="checkbox" class="checkbox" id="stop-send" name="stop-send" checked
+                        onchange="toggleSlider('sendInterval', name)" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="GPS-coverage">GPS Coverage</label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="gps-coverage" id="coverage-good" class="checkbox" value="good" onchange="radioOffUpdate()" checked>
+                        Good
+                    </label>
+                    <label>
+                        <input type="radio" name="gps-coverage" id="coverage-poor" class="checkbox" value="poor" onchange="radioOffUpdate()">
+                        Poor
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="modem-state">4G Connection</label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="modem-power" id="radio-on" class="checkbox" value="modem-normal" onchange="radioOffUpdate()" checked>
+                        Full &nbsp; 
+                    </label>
+                    <label>
+                        <input type="radio" name="modem-power" id="radio-off" class="checkbox" value="radio-off" onchange="radioOffUpdate()">
+                        Radio Off
+                    </label>
+                   <label>
+                        <input type="radio" name="modem-power" id="modem-off" class="checkbox" value="modem-off" onchange="radioOffUpdate()">
+                        Power Saving
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="ASP">Sensor Suite<br>(future release)
+                    </label></label>
+                </td>
+                <td>
+                    <label>
+                        <input type="radio" name="asp-state" id="full-sensors" class="checkbox" value="full" onchange="radioOffUpdate()" checked>
+                        Full &nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" name="asp-state" id="reduced-sensors" class="checkbox" value="reduced" onchange="radioOffUpdate()">
+                        Reduced light and touch sensor reaction time 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="current-draw">Average Current Draw</label>
+                </td>
+                <td>
+                    <input type="range" id="current-draw" min="0" max="10" value="0" class="slider" disabled />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="current-draw-value"></span> mA</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="battery-life">Estimated Battery Life</label>
+                </td>
+                <td>
+                    <input type="range" id="battery-life" min="0" max="180" value="0" class="slider" disabled />
+                </td>
+                <td>
+                    <span class="slider-value"><span id="battery-life-value"></span> days</span>
+                </td>
+            </tr>
+        </div>
+    </table>
+    <h5>Copyright &copy; Sendum Wireless 2024</h5>
+    <script>
+        const quiescentCurrentRadioOn_mA = 5.6;
+        const quiescentCurrentRadioOff_mA = 3.0;
+        const quiescentCurrentModemOff_mA = 0.2;
+
+        const aspDrawFull_mA = 0.5;
+        const aspDrawReduced_mA = 0.1;
+
+        const startupDraw_mAh = 4.5;
+        const locationReportDrainPoor_mAh = 1.1;
+        const locationReportDrainGood_mAh = 0.2;
+        const status300ReportDrain_mAh = 0.07;
+        const SendDrain_mAh = 0.41;
+		const modemPowerOnDrain_mAh = 0.8;
+
+        function calculatePowerDrain() {
+            const percentUsable = document.getElementById("percentUsable").value;
+            const locationReportIntervalMin = document.getElementById("locationReportInterval").value;
+            const status300ReportIntervalMin = document.getElementById("status300ReportInterval").value;
+            const sendIntervalMin = document.getElementById("sendInterval").value;
+            const locationReportDraw_mAh = document.getElementById("coverage-good").checked? locationReportDrainGood_mAh: locationReportDrainPoor_mAh;
+            const status300Disabled = document.getElementById('stop-status').checked;
+            const locationDisabled = document.getElementById('stop-location').checked;
+            const sendDisabled = document.getElementById('stop-send').checked;
+            const radioDisabled = document.getElementById('radio-off').checked;
+            const radioOff = document.getElementById('modem-off').checked;
+            const aspFull = document.getElementById('full-sensors').checked;
+            const batteryCapacity_mAh = document.getElementById("batteryCapacity").value;
+            const usableCapacity_fraction = document.getElementById("percentUsable").value / 100;
+
+            const status300PerHr = status300Disabled ? 0 : (60 / status300ReportIntervalMin);   // number of status300 reports per hour
+            const locationPerHr = locationDisabled ? 0 : (60 / locationReportIntervalMin);  // number of location reports per hour
+            const sendPerHr = sendDisabled ? 0 : (60 / sendIntervalMin);    // number of uploads per hour
+
+			const powerOnDraw_mAh = radioOff? modemPowerOnDrain_mAh: SendDrain_mAh;  // modem power up drain, mAh
+
+            // periodic power draw
+            const reportModemPowerDrain_mAh = sendDisabled? powerOnDraw_mAh: 0;    // current drain to send one report
+            const status300PowerDraw_mA = (status300ReportDrain_mAh + reportModemPowerDrain_mAh) * status300PerHr;  // current draw to perform periodic status300 reports
+            const locationPowerDraw_mA = (locationReportDraw_mAh + reportModemPowerDrain_mAh) * locationPerHr;     // current draw to perform periodic location reports
+            const sendPowerDraw_mA = (sendDisabled ? 0 : (SendDrain_mAh + reportModemPowerDrain_mAh)) * sendPerHr;  // current draw to perform periodic data upload
+
+            // average power draw
+            const aspDraw_mA = aspFull? aspDrawFull_mA: aspDrawReduced_mA;
+            const baselineDraw_mA = aspDraw_mA + (radioOff? quiescentCurrentModemOff_mA: radioDisabled ? quiescentCurrentRadioOff_mA : quiescentCurrentRadioOn_mA);
+            const totalDraw_mA = baselineDraw_mA + status300PowerDraw_mA + locationPowerDraw_mA + sendPowerDraw_mA;
+            const usableCapacity_mAh = batteryCapacity_mAh * usableCapacity_fraction;
+            const batteryLife_days = usableCapacity_mAh * usableCapacity_fraction / totalDraw_mA / 24;
+
+            document.getElementById("current-draw").value = totalDraw_mA.toFixed(2);
+            document.getElementById("battery-life").value = batteryLife_days.toFixed(2);
+            document.getElementById("current-draw-value").textContent = totalDraw_mA.toFixed(2);
+            document.getElementById("battery-life-value").textContent = batteryLife_days.toFixed(2);
+        }
+
+        function toggleSlider(sliderId, checkboxId) {
+            var slider = document.getElementById(sliderId);
+            var checkbox = document.getElementById(checkboxId);
+            slider.disabled = checkbox.checked
+            updateValue(sliderId);
+        }
+
+        function updateValue(id) {
+            const slider = document.getElementById(id);
+            const sliderValue = document.getElementById(id + "-value");
+            sliderValue.textContent = slider.value;
+            calculatePowerDrain();
+        }
+        function radioOffUpdate() {
+            calculatePowerDrain();
+        }
+        batteryCapacity.addEventListener("input", () => updateValue("batteryCapacity"));
+        percentUsable.addEventListener("input", () => updateValue("percentUsable"));
+        locationReportInterval.addEventListener("input", () => updateValue("locationReportInterval"));
+        status300ReportInterval.addEventListener("input", () => updateValue("status300ReportInterval"));
+        sendInterval.addEventListener("input", () => updateValue("sendInterval"));
+        updateValue("batteryCapacity");
+        updateValue("percentUsable");
+        updateValue("locationReportInterval");
+        updateValue("status300ReportInterval");
+        updateValue("sendInterval");
+        updateValue("current-draw");
+        updateValue("battery-life");
+    </script>
+</body>
+</html>
