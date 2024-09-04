@@ -197,7 +197,7 @@
                     </label>
                     <label>
                         <input type="radio" name="asp-state" id="reduced-sensors" class="checkbox" value="reduced" onchange="radioOffUpdate()">
-                        Reduced light and touch sensor reaction time 
+                        Reduced light sensors check
                 </td>
             </tr>
             <tr>
@@ -238,7 +238,7 @@
         const locationReportDrainGood_mAh = 0.2;
         const status300ReportDrain_mAh = 0.07;
         const SendDrain_mAh = 0.41;
-		const modemPowerOnDrain_mAh = 0.8;
+	const modemPowerOnDrain_mAh = 0.8;
 
         function calculatePowerDrain() {
             const percentUsable = document.getElementById("percentUsable").value;
